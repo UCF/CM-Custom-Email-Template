@@ -1,0 +1,13 @@
+// scss-lint:disable all
+
+.ReadMsgBody { width: 100%; background-color: #ffffff;}
+.ExternalClass {width: 100%; background-color: #ffffff;}
+.ExternalClass, .ExternalClass p, .ExternalClass span, .ExternalClass font, .ExternalClass td, .ExternalClass div {line-height:100%;}
+body {-webkit-text-size-adjust:none; -ms-text-size-adjust:none;}
+body {margin:0; padding:0;}
+table {border-spacing:0;border-collapse:collapse;}
+table td {padding: 0;}
+
+* {zoom:1;}
+a {color:#006699;}
+div, p, a, li, td { -webkit-text-size-adjust:none; } // ios likes to enforce a minimum font size of 13px; kill it with this

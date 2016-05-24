@@ -1,0 +1,137 @@
+// scss-lint:disable all
+
+$gutter-desktop: 36px;
+$gutter-mobile: 15px;
+$email-width: 640px;
+$email-inner-width: $email-width - ($gutter-desktop * 2);
+
+
+@mixin mobile-mq() {
+  @media (max-width: #{$email-width}) {
+    @content;
+  }
+}
+
+@mixin mobile-unset-margin-x() {
+  @include mobile-mq() {
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+  }
+}
+
+@mixin mobile-unset-padding-x() {
+  @include mobile-mq() {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
+}
+
+@mixin mobile-unset-border-x() {
+  @include mobile-mq() {
+    border-left: 0 solid transparent !important;
+    border-right: 0 solid transparent !important;
+  }
+}
+
+
+//
+// Base styles
+//
+
+table {
+  @include mobile-mq() {
+    border-collapse: separate !important;
+  }
+
+  border-collapse: collapse;
+  border-spacing: 0;
+  text-align: center;
+}
+
+td {
+  padding: 0;
+}
+
+
+//
+// Utility classes
+//
+
+img[class="img-responsive"] {
+  @include mobile-mq() {
+    max-width: none !important;
+    width: 100% !important;
+  }
+}
+
+*[class="hide-mobile"] {
+  @include mobile-mq() {
+    display: none;
+    font-size: 0;
+    line-height: 0;
+    max-height: 0;
+    mso-hide: all; // hide elements in Outlook 2007-2013
+    overflow: hidden;
+    width: 0;
+  }
+}
+
+*[class="show-mobile"] {
+  @include mobile-mq() {
+    display: block !important;
+    font-size: initial;
+    line-height: initial;
+    max-height: none !important;
+    mso-hide: none !important;
+    overflow: visible !important;
+    width: auto !important;
+  }
+}
+
+// The outermost wrapper table
+table[class="container-outer"] {
+  @include mobile-mq() {
+    width: 100% !important;
+    margin: 0 !important;
+  }
+
+  width: $email-width;
+}
+
+// The firstmost inner tables, which should be padded at mobile sizes
+table[class="container-inner"] {
+  @include mobile-unset-border-x();
+  @include mobile-mq() {
+    width: 100% !important;
+    padding-left: $gutter-mobile;
+    padding-right: $gutter-mobile;
+    margin: 0 !important;
+  }
+
+  width: $email-inner-width;
+}
+
+// Generic class for a table column that should collapse to 100% width at mobile sizes
+td[class="column-collapse"],
+th[class="column-collapse"] {
+  @include mobile-unset-border-x();
+  @include mobile-unset-margin-x();
+  @include mobile-unset-padding-x();
+  @include mobile-mq() {
+    clear: both;
+    display: block !important;
+    float: left;
+    overflow: hidden;
+    width: 100% !important;
+  }
+}
+
+// Generic class for a table **within a column** that should be forced to 100% width at mobile sizes
+table[class="table-collapse"] {
+  @include mobile-unset-border-x();
+  @include mobile-unset-margin-x();
+  @include mobile-unset-padding-x();
+
+  width: 100%;
+}
+
