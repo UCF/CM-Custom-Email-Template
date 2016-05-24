@@ -4,6 +4,7 @@ var gulp = require('gulp'),
     es = require('event-stream'),
     EmailBuilder = require('email-builder-core'),
     sass = require('gulp-sass'),
+    combineMq = require('gulp-combine-mq'),
     browserSync = require('browser-sync').create();
 
 
@@ -17,12 +18,13 @@ var configDefault = {
 emailBuilder = new EmailBuilder(config.emailBuilderOptions);
 
 
-// Compile scss files
+// Compile scss files and condense media queries
 gulp.task('scss', function() {
   return gulp.src(config.srcDir + '/scss/*.scss')
     .pipe(sass({
       outputStyle: "compact"
     }).on('error', sass.logError))
+    .pipe(combineMq())
     .pipe(gulp.dest(config.srcDir + '/css/'))
     .pipe(browserSync.stream());
 });
