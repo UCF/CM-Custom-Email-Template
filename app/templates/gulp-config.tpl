@@ -1,5 +1,5 @@
 {
-  "sync": false,
+  "sync": <%= browser_sync_enable %>,
   "syncIndex": "template.html",
   "juice": {
     "preserveMediaQueries": true,
