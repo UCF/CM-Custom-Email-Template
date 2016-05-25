@@ -1,5 +1,5 @@
 # Email Builder
-Boilerplate for Sass-y email building and automated inline-CSS-ifying.
+Boilerplate for Sass-y email building and automated CSS inlining.
 
 ## Requirements
 - nodejs
