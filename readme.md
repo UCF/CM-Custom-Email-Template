@@ -17,7 +17,7 @@ Option | Type | Description
 ------ | ---- | -----------
 sync | boolean | Whether or not BrowserSync should be used.
 syncIndex | string | The index file to point BrowserSync to; this should be an html file in `dist/`.
-emailBuilderOptions | object | Options to pass to [EmailBuilder](https://github.com/Email-builder/email-builder-core#options).
+juice | object | Options to pass to [Juice](https://github.com/Automattic/juice#options).
 
 
 ## Development
@@ -26,6 +26,6 @@ emailBuilderOptions | object | Options to pass to [EmailBuilder](https://github.
 3. Test your email in Litmus.  Rinse and repeat Step 2 until your email looks acceptable in all desired clients.
 
 ## Wishlist/TODOs
-- Test the 'test-litmus' and 'test-ses' gulp tasks; theoretically the code should work but they haven't been run yet.
 - Wrap this code in a Yeoman generator
+- Litmus and SES integration
 - S3 integration?

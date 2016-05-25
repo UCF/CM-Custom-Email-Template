@@ -1,32 +1,11 @@
 {
   "sync": false,
   "syncIndex": "template.html",
-  "emailBuilderOptions": {
-    "encodeSpecialChars": true,
-    "relativePath": "",
-    "litmus": {
-      "subject": "",
-      "username": "",
-      "password": "",
-      "url": "",
-      "applications": []
-    },
-    "emailTest": {
-      "email": "",
-      "subject": "",
-      "transport": {
-        "type": "SES",
-        "options": {
-          "accessKeyId": "",
-          "secretAccessKey": ""
-        }
-      }
-    },
-    "juice": {
-        "preserveImportant": true,
-        "applyWidthAttributes": true,
-        "applyHeightAttributes": true,
-        "applyAttributesTableElements": true
-    }
+  "juice": {
+    "preserveMediaQueries": true,
+    "preserveImportant": true,
+    "applyWidthAttributes": true,
+    "applyHeightAttributes": true,
+    "applyAttributesTableElements": true
   }
 }

@@ -2,9 +2,10 @@ var gulp = require('gulp'),
     configLocal = require('./gulp-config.json'),
     merge = require('merge'),
     es = require('event-stream'),
-    EmailBuilder = require('email-builder-core'),
+    juice = require('juice'),
     sass = require('gulp-sass'),
     combineMq = require('gulp-combine-mq'),
+    extractMq = require('gulp-separate-media-queries'),
     browserSync = require('browser-sync').create();
 
 
@@ -15,10 +16,7 @@ var configDefault = {
     config = merge(configDefault, configLocal);
 
 
-emailBuilder = new EmailBuilder(config.emailBuilderOptions);
-
-
-// Compile scss files and condense media queries
+// Compile scss files and combine media queries
 gulp.task('scss', function() {
   return gulp.src(config.srcDir + '/scss/*.scss')
     .pipe(sass({
@@ -34,11 +32,10 @@ gulp.task('scss', function() {
 gulp.task('html-inline', ['scss'], function() {
   return gulp.src([config.srcDir + '/*.html'])
     .pipe(es.map(function(data, cb) {
-      emailBuilder.inlineCss(data.path)
-        .then(function(html) {
-          data.contents = new Buffer(html);
-          cb(null, data);
-        });
+      juice.juiceFile(data.path, config.juice, function(err, html) {
+        data.contents = new Buffer(html);
+        cb(null, data);
+      });
     }))
     .pipe(gulp.dest(config.distDir + '/'))
     .pipe(browserSync.stream());
@@ -46,27 +43,6 @@ gulp.task('html-inline', ['scss'], function() {
 
 // All CSS-related tasks
 gulp.task('default', ['scss', 'html-inline']);
-
-
-// // Send a test to Litmus.
-// // TODO test this!
-// gulp.task('test-litmus', function() {
-//   return gulp.src([config.srcDir + '/*.html'])
-//     .pipe(es.map(function(data, cb) {
-//       var html = fs.readFile(data.path, 'utf8');
-//       emailBuilder.sendLitmusTest(html);
-//     }));
-// });
-
-// // Send a test email using Amazon SES (like Postmaster).
-// // TODO test this!
-// gulp.task('test-ses', function() {
-//   return gulp.src([config.srcDir + '/*.html'])
-//     .pipe(es.map(function(data, cb) {
-//       var html = fs.readFile(data.path, 'utf8');
-//       emailBuilder.sendEmailTest(html);
-//     }));
-// });
 
 
 // Rerun tasks when files change
