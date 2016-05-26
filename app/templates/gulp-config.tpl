@@ -7,5 +7,13 @@
     "applyWidthAttributes": true,
     "applyHeightAttributes": true,
     "applyAttributesTableElements": true
+  },
+  "htmlmin": {
+    "collapseInlineTagWhitespace": true,
+    "collapseWhitespace": true,
+    "conservativeCollapse": true,
+    "maxLineLength": 1000,
+    "preserveLineBreaks": true,
+    "removeComments": true
   }
 }

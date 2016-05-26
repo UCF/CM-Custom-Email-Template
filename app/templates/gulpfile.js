@@ -5,7 +5,7 @@ var gulp = require('gulp'),
     juice = require('juice'),
     sass = require('gulp-sass'),
     combineMq = require('gulp-combine-mq'),
-    extractMq = require('gulp-separate-media-queries'),
+    htmlMin = require('gulp-htmlmin'),
     browserSync = require('browser-sync').create();
 
 
@@ -27,7 +27,7 @@ gulp.task('scss', function() {
     .pipe(browserSync.stream());
 });
 
-// Inline CSS into the email markup.
+// Inline CSS into the email markup and minify markup.
 // Note: 'html-inline' depends on 'scss' finishing before it can be run.
 gulp.task('html-inline', ['scss'], function() {
   return gulp.src([config.srcDir + '/*.html'])
@@ -37,6 +37,7 @@ gulp.task('html-inline', ['scss'], function() {
         cb(null, data);
       });
     }))
+    .pipe(htmlMin(config.htmlmin))
     .pipe(gulp.dest(config.distDir + '/'))
     .pipe(browserSync.stream());
 });

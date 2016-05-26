@@ -23,6 +23,9 @@ Option | Type | Description
 sync | boolean | Whether or not BrowserSync should be used.
 syncIndex | string | The index file to point BrowserSync to; this should be an html file in `dist/`.
 juice | object | Options to pass to [Juice](https://github.com/Automattic/juice#options).
+htmlmin | object | Options to pass to [HTMLMinifier](https://github.com/kangax/html-minifier#options-quick-reference).
+
+NOTE: the htmlmin.maxLineLength option will NOT break a single line of text if it is too long--you are still responsible for ensuring text contents don't exceed 1000 characters.
 
 ### Using The Inliner Tools
 By default, styles in `<link>` and `<style>` tags are inlined into the html template when `gulp default` or `gulp html-inline` are run, and the original `<link>` or `<style>` tags are removed (unless they contain media queries; in which case, only the media queries will remain.)
