@@ -42,5 +42,4 @@ Add to a `<link>` tag to prevent inlining entirely (the output html file will st
 ## Wishlist/TODOs
 - Litmus and SES integration for testing
 - HTML entity/special character processing (ASCII)
-- HTML uglifying with max line width handling
 - S3 integration?
