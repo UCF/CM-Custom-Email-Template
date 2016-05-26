@@ -6,7 +6,10 @@
     "preserveImportant": true,
     "applyWidthAttributes": true,
     "applyHeightAttributes": true,
-    "applyAttributesTableElements": true
+    "applyAttributesTableElements": true,
+    "webResources": {
+      "images": false
+    }
   },
   "htmlmin": {
     "collapseInlineTagWhitespace": true,
