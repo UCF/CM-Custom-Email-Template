@@ -43,13 +43,8 @@ table {
     border-collapse: separate !important;
   }
 
-  border-collapse: collapse;
-  border-spacing: 0;
   text-align: center;
-}
-
-td {
-  padding: 0;
+  width: 100%;
 }
 
 
@@ -57,14 +52,14 @@ td {
 // Utility classes
 //
 
-img[class="img-responsive"] {
+.img-responsive {
   @include mobile-mq() {
     max-width: none !important;
     width: 100% !important;
   }
 }
 
-*[class="hide-mobile"] {
+.hide-mobile {
   @include mobile-mq() {
     display: none;
     font-size: 0;
@@ -76,7 +71,15 @@ img[class="img-responsive"] {
   }
 }
 
-*[class="show-mobile"] {
+.show-mobile {
+  display: none;
+  font-size: 0;
+  line-height: 0;
+  max-height: 0;
+  mso-hide: all; // hide elements in Outlook 2007-2013
+  overflow: hidden;
+  width: 0;
+
   @include mobile-mq() {
     display: block !important;
     font-size: initial;
@@ -88,8 +91,15 @@ img[class="img-responsive"] {
   }
 }
 
-// The outermost wrapper table
-table[class="container-outer"] {
+// The email's wrapper table
+.container-body {
+  min-width: 100%;
+  table-layout: fixed;
+  width: 100%;
+}
+
+// The outermost container table
+.container-outer {
   @include mobile-mq() {
     width: 100% !important;
     margin: 0 !important;
@@ -99,7 +109,7 @@ table[class="container-outer"] {
 }
 
 // The firstmost inner tables, which should be padded at mobile sizes
-table[class="container-inner"] {
+.container-inner {
   @include mobile-unset-border-x();
   @include mobile-mq() {
     width: 100% !important;
@@ -111,9 +121,8 @@ table[class="container-inner"] {
   width: $email-inner-width;
 }
 
-// Generic class for a table column that should collapse to 100% width at mobile sizes
-td[class="column-collapse"],
-th[class="column-collapse"] {
+// Generic class for a th or td that should collapse to 100% width at mobile sizes
+.mobile-column-collapse {
   @include mobile-unset-border-x();
   @include mobile-unset-margin-x();
   @include mobile-unset-padding-x();
@@ -127,7 +136,7 @@ th[class="column-collapse"] {
 }
 
 // Generic class for a table **within a column** that should be forced to 100% width at mobile sizes
-table[class="table-collapse"] {
+.mobile-table-collapse {
   @include mobile-unset-border-x();
   @include mobile-unset-margin-x();
   @include mobile-unset-padding-x();
@@ -135,3 +144,28 @@ table[class="table-collapse"] {
   width: 100%;
 }
 
+.text-left {
+  text-align: left;
+}
+
+.v-top {
+  vertical-align: top;
+}
+
+.v-middle {
+  vertical-align: middle;
+}
+
+.v-bottom {
+  vertical-align: bottom;
+}
+
+.column-2-1 {
+  padding-right: $gutter-desktop / 2;
+  width: 50%;
+}
+
+.column-2-2 {
+  padding-left: $gutter-desktop / 2;
+  width: 50%;
+}
