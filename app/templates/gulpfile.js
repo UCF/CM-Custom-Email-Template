@@ -6,6 +6,8 @@ var gulp = require('gulp'),
     sass = require('gulp-sass'),
     combineMq = require('gulp-combine-mq'),
     htmlMin = require('gulp-htmlmin'),
+    cheerio = require('gulp-cheerio'),
+    he = require('he'),
     browserSync = require('browser-sync').create();
 
 
@@ -27,7 +29,7 @@ gulp.task('scss', function() {
     .pipe(browserSync.stream());
 });
 
-// Inline CSS into the email markup and minify markup.
+// Inline CSS into the email markup, then minify and encode special chars.
 // Note: 'html-inline' depends on 'scss' finishing before it can be run.
 gulp.task('html-inline', ['scss'], function() {
   return gulp.src([config.srcDir + '/*.html'])
@@ -38,6 +40,25 @@ gulp.task('html-inline', ['scss'], function() {
       });
     }))
     .pipe(htmlMin(config.htmlmin))
+    .pipe(cheerio({
+      run: function($, file) {
+        // Each file will be run through cheerio and each corresponding `$` will be passed here.
+        // `file` is the gulp file object
+        $('body *').each(function() {
+          $(this)
+            .contents()
+            .filter(function() { return this.nodeType === 3 && /\S/.test(this.nodeValue); })
+              .each(function() {
+                // Decode everything first, to handle already-encoded
+                // characters such as `&amp;`, then encode
+                this.nodeValue = he.encode(he.decode(this.nodeValue));
+              });
+          });
+      },
+      parserOptions: {
+        decodeEntities: false
+      }
+    }))
     .pipe(gulp.dest(config.distDir + '/'))
     .pipe(browserSync.stream());
 });

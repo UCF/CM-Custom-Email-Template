@@ -4,9 +4,11 @@
     "browser-sync": "^2.12.8",
     "event-stream": "^3.3.2",
     "gulp": "^3.9.1",
+    "gulp-cheerio": "^0.6.2",
     "gulp-combine-mq": "^0.4.0",
     "gulp-htmlmin": "^2.0.0",
     "gulp-sass": "^2.3.1",
+    "he": "^1.1.0",
     "juice": "^2.0.0",
     "merge": "^1.2.0"
   }

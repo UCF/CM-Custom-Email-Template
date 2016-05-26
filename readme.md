@@ -1,6 +1,12 @@
 # Email Builder
 Boilerplate for Sass-y email building and automated CSS inlining.
 
+What this tool does:
+- Compiles Sass
+- Inlines CSS
+- Condenses HTML, removes comments and enforces [maximum line lengths](https://tools.ietf.org/html/rfc821#page-43)* (see note under gulp-config.js options)
+- Intelligently encodes special characters to HTML entities in text nodes
+
 ## Requirements
 - nodejs
 - gulp
@@ -25,7 +31,7 @@ syncIndex | string | The index file to point BrowserSync to; this should be an h
 juice | object | Options to pass to [Juice](https://github.com/Automattic/juice#options).
 htmlmin | object | Options to pass to [HTMLMinifier](https://github.com/kangax/html-minifier#options-quick-reference).
 
-NOTE: the htmlmin.maxLineLength option will NOT break a single line of text if it is too long--you are still responsible for ensuring text contents don't exceed 1000 characters.
+* NOTE: the htmlmin.maxLineLength option will NOT break a single line of text if it is too long--you are still responsible for ensuring text contents don't exceed 1000 characters.
 
 ### Using The Inliner Tools
 By default, styles in `<link>` and `<style>` tags are inlined into the html template when `gulp default` or `gulp html-inline` are run, and the original `<link>` or `<style>` tags are removed (unless they contain media queries; in which case, only the media queries will remain.)
@@ -41,5 +47,4 @@ Add to a `<link>` tag to prevent inlining entirely (the output html file will st
 
 ## Wishlist/TODOs
 - Litmus and SES integration for testing
-- HTML entity/special character processing (ASCII)
 - S3 integration?
