@@ -62,3 +62,8 @@ td {
   // ios likes to enforce a minimum font size of 13px; kill it with this
   -webkit-text-size-adjust: none;
 }
+
+img {
+  border: 0;
+  border-style: none;
+}

@@ -1,37 +1,8 @@
 // scss-lint:disable all
 
-$gutter-desktop: 36px;
-$gutter-mobile: 15px;
-$email-width: 640px;
-$email-inner-width: $email-width - ($gutter-desktop * 2);
-
-
-@mixin mobile-mq() {
-  @media (max-width: #{$email-width}) {
-    @content;
-  }
-}
-
-@mixin mobile-unset-margin-x() {
-  @include mobile-mq() {
-    margin-left: 0 !important;
-    margin-right: 0 !important;
-  }
-}
-
-@mixin mobile-unset-padding-x() {
-  @include mobile-mq() {
-    padding-left: 0 !important;
-    padding-right: 0 !important;
-  }
-}
-
-@mixin mobile-unset-border-x() {
-  @include mobile-mq() {
-    border-left: 0 solid transparent !important;
-    border-right: 0 solid transparent !important;
-  }
-}
+@import 'variables';
+@import 'mixins';
+@import 'utilities';
 
 
 //
@@ -47,125 +18,8 @@ table {
   width: 100%;
 }
 
-
-//
-// Utility classes
-//
-
-.img-responsive {
-  @include mobile-mq() {
-    max-width: none !important;
-    width: 100% !important;
-  }
-}
-
-.hide-mobile {
-  @include mobile-mq() {
-    display: none;
-    font-size: 0;
-    line-height: 0;
-    max-height: 0;
-    mso-hide: all; // hide elements in Outlook 2007-2013
-    overflow: hidden;
-    width: 0;
-  }
-}
-
-.show-mobile {
-  display: none;
-  font-size: 0;
-  line-height: 0;
-  max-height: 0;
-  mso-hide: all; // hide elements in Outlook 2007-2013
-  overflow: hidden;
-  width: 0;
-
-  @include mobile-mq() {
-    display: block !important;
-    font-size: initial;
-    line-height: initial;
-    max-height: none !important;
-    mso-hide: none !important;
-    overflow: visible !important;
-    width: auto !important;
-  }
-}
-
-// The email's wrapper table
-.container-body {
-  min-width: 100%;
-  table-layout: fixed;
-  width: 100%;
-}
-
-// The outermost container table
-.container-outer {
-  @include mobile-mq() {
-    width: 100% !important;
-    margin: 0 !important;
-  }
-
-  width: $email-width;
-}
-
-// The firstmost inner tables, which should be padded at mobile sizes
-.container-inner {
-  @include mobile-unset-border-x();
-  @include mobile-mq() {
-    width: 100% !important;
-    padding-left: $gutter-mobile;
-    padding-right: $gutter-mobile;
-    margin: 0 !important;
-  }
-
-  width: $email-inner-width;
-}
-
-// Generic class for a th or td that should collapse to 100% width at mobile sizes
-.mobile-column-collapse {
-  @include mobile-unset-border-x();
-  @include mobile-unset-margin-x();
-  @include mobile-unset-padding-x();
-  @include mobile-mq() {
-    clear: both;
-    display: block !important;
-    float: left;
-    overflow: hidden;
-    width: 100% !important;
-  }
-}
-
-// Generic class for a table **within a column** that should be forced to 100% width at mobile sizes
-.mobile-table-collapse {
-  @include mobile-unset-border-x();
-  @include mobile-unset-margin-x();
-  @include mobile-unset-padding-x();
-
-  width: 100%;
-}
-
-.text-left {
-  text-align: left;
-}
-
-.v-top {
-  vertical-align: top;
-}
-
-.v-middle {
-  vertical-align: middle;
-}
-
-.v-bottom {
-  vertical-align: bottom;
-}
-
-.column-2-1 {
-  padding-right: $gutter-desktop / 2;
-  width: 50%;
-}
-
-.column-2-2 {
-  padding-left: $gutter-desktop / 2;
-  width: 50%;
+th,
+td {
+  font-size: $font-size-base;
+  line-height: $line-height-base;
 }
