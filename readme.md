@@ -18,6 +18,7 @@ What this tool does:
 4. `cp gulp-config.template.json gulp-config.json`; edit new config file as necessary
 5. `npm install` from root directory of the repo
 6. Run an initial build of included files: `gulp default`
+7. Update `src/scss/_variables.css` to add URLs for the "UCF-Sans-Serif-Alt" font family (see `$font-sans-serif`).
 
 ### gulp-config.json Options:
 
