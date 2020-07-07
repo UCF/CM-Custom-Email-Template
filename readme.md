@@ -44,8 +44,3 @@ Add to a `<link>` tag to download the stylesheet's contents, but embed them in t
 
 #### `data-inline-ignore`
 Add to a `<link>` tag to prevent inlining entirely (the output html file will still contain the `<link>` tag).
-
-
-## Wishlist/TODOs
-- Litmus and SES integration for testing
-- S3 integration?
