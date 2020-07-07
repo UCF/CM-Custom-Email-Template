@@ -1,5 +1,9 @@
 // scss-lint:disable all
 
+@import 'variables';
+@import 'mixins';
+
+
 //
 // Vendor
 //
@@ -51,16 +55,7 @@ th {
 }
 
 a {
-  color: #006699;
-}
-
-div,
-p,
-a,
-li,
-td {
-  // ios likes to enforce a minimum font size of 13px; kill it with this
-  -webkit-text-size-adjust: none;
+  color: $link-color;
 }
 
 img {
