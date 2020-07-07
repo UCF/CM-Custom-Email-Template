@@ -1,60 +1,116 @@
-var gulp = require('gulp'),
-    configLocal = require('./gulp-config.json'),
-    merge = require('merge'),
-    es = require('event-stream'),
-    juice = require('juice'),
-    sass = require('gulp-sass'),
-    combineMq = require('gulp-combine-mq'),
-    extractMq = require('gulp-separate-media-queries'),
-    browserSync = require('browser-sync').create();
+const fs = require('fs');
+const gulp = require('gulp');
+const merge = require('merge');
+const map = require('map-stream');
+const juice = require('juice');
+const sass = require('gulp-sass');
+const combineMq = require('gulp-group-css-media-queries');
+const htmlMin = require('gulp-htmlmin');
+const cheerio = require('gulp-cheerio');
+const he = require('he');
+const browserSync = require('browser-sync').create();
+var log = require('fancy-log');
 
 
-var configDefault = {
-      srcDir: 'src',
-      distDir: 'dist'
-    },
-    config = merge(configDefault, configLocal);
+let config = {
+  srcDir: 'src',
+  distDir: 'dist'
+}
+
+if (fs.existsSync('./gulp-config.json')) {
+  const overrides = JSON.parse(fs.readFileSync('./gulp-config.json'));
+  config = merge(config, overrides);
+}
 
 
-// Compile scss files and combine media queries
-gulp.task('scss', function() {
-  return gulp.src(config.srcDir + '/scss/*.scss')
-    .pipe(sass({
-      outputStyle: "compact"
-    }).on('error', sass.logError))
-    .pipe(combineMq())
-    .pipe(gulp.dest(config.srcDir + '/css/'))
-    .pipe(browserSync.stream());
-});
+//
+// Helper functions
+//
 
-// Inline CSS into the email markup.
-// Note: 'html-inline' depends on 'scss' finishing before it can be run.
-gulp.task('html-inline', ['scss'], function() {
-  return gulp.src([config.srcDir + '/*.html'])
-    .pipe(es.map(function(data, cb) {
-      juice.juiceFile(data.path, config.juice, function(err, html) {
-        data.contents = new Buffer(html);
-        cb(null, data);
-      });
-    }))
-    .pipe(gulp.dest(config.distDir + '/'))
-    .pipe(browserSync.stream());
-});
+// BrowserSync reload function
+function serverReload(done) {
+  if (config.sync) {
+    browserSync.reload();
+  }
+  done();
+}
 
-// All CSS-related tasks
-gulp.task('default', ['scss', 'html-inline']);
-
-
-// Rerun tasks when files change
-gulp.task('watch', function() {
+// BrowserSync serve function
+function serverServe(done) {
   if (config.sync) {
     browserSync.init({
-      server: {
-        baseDir: config.distDir + '/',
-        index: config.syncIndex
+      proxy: {
+        target: config.syncIndex
       }
     });
   }
+  done();
+}
 
-  gulp.watch([config.srcDir + '/scss/*.scss', config.srcDir + '/*.html'], ['default']).on('change', browserSync.reload);
+
+//
+// CSS Build Steps
+//
+
+// Compile scss files and combine media queries
+gulp.task('scss', () => {
+  return gulp.src(`${config.srcDir}/scss/**/*.scss`)
+    .pipe(sass({
+      outputStyle: "compact"
+    })
+      .on('error', sass.logError))
+    .pipe(combineMq())
+    .pipe(gulp.dest(`${config.srcDir}/css/`));
+});
+
+// Inline CSS into the email markup, then minify and encode special chars.
+// Note: 'html-inline' depends on 'scss' finishing before it can be run.
+gulp.task('html-inline', () => {
+  return gulp.src(`${config.srcDir}/*.html`)
+    .pipe(map(function (data, cb) {
+      juice.juiceFile(data.path, config.juice, function (err, html) {
+        data.contents = new Buffer.from(html);
+        cb(null, data);
+      });
+    }))
+    .pipe(htmlMin(config.htmlmin))
+    .pipe(cheerio({
+      run: function ($, file) {
+        // Each file will be run through cheerio and each corresponding `$` will be passed here.
+        // `file` is the gulp file object
+        $('body *').each(function () {
+          $(this)
+            .contents()
+            .filter(function () { return this.nodeType === 3 && /\S/.test(this.nodeValue); })
+            .each(function () {
+              // Decode everything first, to handle already-encoded
+              // characters such as `&amp;`, then encode
+              this.nodeValue = he.encode(he.decode(this.nodeValue));
+            });
+        });
+      },
+      parserOptions: {
+        decodeEntities: false
+      }
+    }))
+    .pipe(gulp.dest(config.distDir + '/'));
+});
+
+// All CSS-related tasks
+gulp.task('default', gulp.series('scss', 'html-inline'));
+
+
+//
+// Rerun tasks when files change
+//
+gulp.task('watch', (done) => {
+  serverServe(done);
+
+  gulp.watch(
+    [
+      `${config.srcDir}/scss/**/*.scss`,
+      `${config.srcDir}/*.html`
+    ],
+    gulp.series('default', serverReload)
+  );
 });
