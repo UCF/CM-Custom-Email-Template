@@ -1,52 +1,60 @@
-'use strict';
-var path = require('path');
-var gulp = require('gulp');
-var eslint = require('gulp-eslint');
-var excludeGitignore = require('gulp-exclude-gitignore');
-var mocha = require('gulp-mocha');
-var istanbul = require('gulp-istanbul');
-var nsp = require('gulp-nsp');
-var plumber = require('gulp-plumber');
+var gulp = require('gulp'),
+    configLocal = require('./gulp-config.json'),
+    merge = require('merge'),
+    es = require('event-stream'),
+    juice = require('juice'),
+    sass = require('gulp-sass'),
+    combineMq = require('gulp-combine-mq'),
+    extractMq = require('gulp-separate-media-queries'),
+    browserSync = require('browser-sync').create();
 
-gulp.task('static', function () {
-  return gulp.src('**/*.js')
-    .pipe(excludeGitignore())
-    .pipe(eslint())
-    .pipe(eslint.format())
-    .pipe(eslint.failAfterError());
+
+var configDefault = {
+      srcDir: 'src',
+      distDir: 'dist'
+    },
+    config = merge(configDefault, configLocal);
+
+
+// Compile scss files and combine media queries
+gulp.task('scss', function() {
+  return gulp.src(config.srcDir + '/scss/*.scss')
+    .pipe(sass({
+      outputStyle: "compact"
+    }).on('error', sass.logError))
+    .pipe(combineMq())
+    .pipe(gulp.dest(config.srcDir + '/css/'))
+    .pipe(browserSync.stream());
 });
 
-gulp.task('nsp', function (cb) {
-  nsp({package: path.resolve('package.json')}, cb);
-});
-
-gulp.task('pre-test', function () {
-  return gulp.src('generators/**/*.js')
-    .pipe(excludeGitignore())
-    .pipe(istanbul({
-      includeUntested: true
+// Inline CSS into the email markup.
+// Note: 'html-inline' depends on 'scss' finishing before it can be run.
+gulp.task('html-inline', ['scss'], function() {
+  return gulp.src([config.srcDir + '/*.html'])
+    .pipe(es.map(function(data, cb) {
+      juice.juiceFile(data.path, config.juice, function(err, html) {
+        data.contents = new Buffer(html);
+        cb(null, data);
+      });
     }))
-    .pipe(istanbul.hookRequire());
+    .pipe(gulp.dest(config.distDir + '/'))
+    .pipe(browserSync.stream());
 });
 
-gulp.task('test', ['pre-test'], function (cb) {
-  var mochaErr;
+// All CSS-related tasks
+gulp.task('default', ['scss', 'html-inline']);
 
-  gulp.src('test/**/*.js')
-    .pipe(plumber())
-    .pipe(mocha({reporter: 'spec'}))
-    .on('error', function (err) {
-      mochaErr = err;
-    })
-    .pipe(istanbul.writeReports())
-    .on('end', function () {
-      cb(mochaErr);
+
+// Rerun tasks when files change
+gulp.task('watch', function() {
+  if (config.sync) {
+    browserSync.init({
+      server: {
+        baseDir: config.distDir + '/',
+        index: config.syncIndex
+      }
     });
-});
+  }
 
-gulp.task('watch', function () {
-  gulp.watch(['generators/**/*.js', 'test/**'], ['test']);
+  gulp.watch([config.srcDir + '/scss/*.scss', config.srcDir + '/*.html'], ['default']).on('change', browserSync.reload);
 });
-
-gulp.task('prepublish', ['nsp']);
-gulp.task('default', ['static', 'test']);
