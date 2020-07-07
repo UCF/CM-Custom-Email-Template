@@ -2,7 +2,9 @@
 
 @import 'variables';
 @import 'mixins';
+@import 'fonts';
 @import 'utilities';
+@import 'components';
 
 
 //
@@ -20,6 +22,7 @@ table {
 
 th,
 td {
+  font-family: $font-family-base;
   font-size: $font-size-base;
   line-height: $line-height-base;
 }
