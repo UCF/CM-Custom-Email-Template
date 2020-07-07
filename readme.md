@@ -12,17 +12,19 @@ What this tool does:
 - gulp
 
 ## Setup
-1. Clone repo into your local development environment
-2. `cp gulp-config.template.json gulp-config.json`; edit new config file as necessary
-3. `npm install` from root directory of the repo
-4. Run an initial build of included files: `gulp default`
+1. Create a new directory for developing your email(s) in
+2. `cd` into the new directory on your machine
+3. Copy the repo contents into your local development environment: `git clone --depth=1 git@github.com:UCF/generator-ucf-email-boilerplate.git .; rm -rf .git`
+4. `cp gulp-config.template.json gulp-config.json`; edit new config file as necessary
+5. `npm install` from root directory of the repo
+6. Run an initial build of included files: `gulp default`
 
 ### gulp-config.json Options:
 
 Option | Type | Description
 ------ | ---- | -----------
 sync | boolean | Whether or not BrowserSync should be used.
-syncIndex | string | The index file to point BrowserSync to; this should be an html file in `dist/`.
+syncIndex | string | The index file to point BrowserSync to; this should be an html file in `dist/`. If you're developing within MAMP or another local environment, include the URL of your localhost--e.g. `http://localhost/my-project/dist/...`
 juice | object | Options to pass to [Juice](https://github.com/Automattic/juice#options).
 htmlmin | object | Options to pass to [HTMLMinifier](https://github.com/kangax/html-minifier#options-quick-reference).
 
