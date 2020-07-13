@@ -18,5 +18,11 @@
     "maxLineLength": 1000,
     "preserveLineBreaks": true,
     "removeComments": true
+  },
+  "declassify": {
+    "ignore": [],
+    "attrs": [
+        "class"
+    ]
   }
 }

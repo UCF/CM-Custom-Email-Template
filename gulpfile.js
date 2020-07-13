@@ -9,6 +9,7 @@ const htmlMin = require('gulp-htmlmin');
 const cheerio = require('gulp-cheerio');
 const he = require('he');
 const browserSync = require('browser-sync').create();
+const declassify = require('declassify');
 var log = require('fancy-log');
 
 
@@ -74,6 +75,11 @@ gulp.task('html-inline', () => {
       });
     }))
     .pipe(htmlMin(config.htmlmin))
+    .pipe(map(function (data, cb) {
+      let html = declassify.process(data.contents.toString(), config.declassify);
+      data.contents = new Buffer.from(html);
+      cb(null, data);
+    }))
     .pipe(cheerio({
       run: function ($, file) {
         // Each file will be run through cheerio and each corresponding `$` will be passed here.

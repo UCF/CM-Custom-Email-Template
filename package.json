@@ -12,5 +12,8 @@
     "juice": "^6.0.0",
     "map-stream": "0.0.7",
     "merge": "^1.2.1"
+  },
+  "devDependencies": {
+    "declassify": "^2.1.0"
   }
 }

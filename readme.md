@@ -5,6 +5,7 @@ What this tool does:
 - Compiles Sass
 - Inlines CSS
 - Condenses HTML, removes comments and enforces [maximum line lengths](https://tools.ietf.org/html/rfc821#page-43)* (see note under gulp-config.js options)
+- Removes unused CSS classes from HTML
 - Intelligently encodes special characters to HTML entities in text nodes
 
 ## Requirements
@@ -28,6 +29,7 @@ sync | boolean | Whether or not BrowserSync should be used.
 syncIndex | string | The index file to point BrowserSync to; this should be an html file in `dist/`. If you're developing within MAMP or another local environment, include the URL of your localhost--e.g. `http://localhost/my-project/dist/...`
 juice | object | Options to pass to [Juice](https://github.com/Automattic/juice#options).
 htmlmin | object | Options to pass to [HTMLMinifier](https://github.com/kangax/html-minifier#options-quick-reference).
+declassify | object | Options to pass to [Declassify](https://github.com/jrit/declassify#options)
 
 * NOTE: the htmlmin.maxLineLength option will NOT break a single line of text if it is too long--you are still responsible for ensuring text contents don't exceed 1000 characters.
 
