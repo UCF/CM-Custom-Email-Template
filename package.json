@@ -2,6 +2,7 @@
   "private": true,
   "dependencies": {
     "browser-sync": "^2.26.7",
+    "declassify": "^2.1.0",
     "fancy-log": "^1.3.3",
     "gulp": "^4.0.2",
     "gulp-cheerio": "^1.0.0",
@@ -12,8 +13,5 @@
     "juice": "^6.0.0",
     "map-stream": "0.0.7",
     "merge": "^1.2.1"
-  },
-  "devDependencies": {
-    "declassify": "^2.1.0"
   }
 }
