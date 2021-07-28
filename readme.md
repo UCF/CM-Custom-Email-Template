@@ -1,32 +1,32 @@
-# Email Builder
-Boilerplate for Sass-y email building and automated CSS inlining.
+# Your Custom Email Campaign Name Here
+Optionated development tools for Sass-y email building and automated CSS inlining.
 
-What this tool does:
+More specifically, the workflow included in this repo:
 - Compiles Sass
 - Inlines CSS
 - Condenses HTML, removes comments and enforces [maximum line lengths](https://tools.ietf.org/html/rfc821#page-43)* (see note under gulp-config.js options)
 - Removes unused CSS classes from HTML
 - Intelligently encodes special characters to HTML entities in text nodes
 
+
 ## Requirements
-- nodejs
-- gulp
+- node
+- gulp-cli
+
 
 ## Setup
-1. Create a new directory for developing your email(s) in
-2. `cd` into the new directory on your machine
-3. Copy the repo contents into your local development environment: `git clone --depth=1 git@github.com:UCF/generator-ucf-email-boilerplate.git .; rm -rf .git`
-4. `cp gulp-config.template.json gulp-config.json`; edit new config file as necessary
-5. `npm install` from root directory of the repo
-6. Run an initial build of included files: `gulp default`
-7. Update `src/scss/_variables.css` to add URLs for the "UCF-Sans-Serif-Alt" font family (see `$font-sans-serif`).
+1. Clone this repo to your local development environment
+2. `cp gulp-config.template.json gulp-config.json`; edit new config file as necessary
+3. `npm install` from root directory of the repo
+4. Update `src/scss/_variables.scss` to add URLs for the "UCF-Sans-Serif-Alt" font family (see `$font-sans-serif`), if they haven't already been added
+5. Run an initial build of included files: `gulp default`
 
 ### gulp-config.json Options:
 
 Option | Type | Description
 ------ | ---- | -----------
 sync | boolean | Whether or not BrowserSync should be used.
-syncIndex | string | The index file to point BrowserSync to; this should be an html file in `dist/`. If you're developing within MAMP or another local environment, include the URL of your localhost--e.g. `http://localhost/my-project/dist/...`
+syncIndex | string | The index file to point BrowserSync to; this should be an html file in `dist/`, or the `dist/` directory itself. If you're developing within MAMP or another local environment, include the URL of your localhost--e.g. `http://localhost/my-project/dist/...`
 juice | object | Options to pass to [Juice](https://github.com/Automattic/juice#options).
 htmlmin | object | Options to pass to [HTMLMinifier](https://github.com/kangax/html-minifier#options-quick-reference).
 declassify | object | Options to pass to [Declassify](https://github.com/jrit/declassify#options)
