@@ -56,4 +56,4 @@ By default, all text nodes in the html template have special characters converte
 You can use the following data attributes to modify how html entities are processed:
 
 #### `data-skip-encoding`
-Add to any element (like `<td>`) to prevent html entity encoding on the element's immediate child text node(s).
+Add to any element (like `<td>`) to prevent html entity encoding on the element's immediate child text node(s).  Useful for adding things like [preview text hacks](https://www.litmus.com/blog/the-little-known-preview-text-hack-you-may-want-to-use-in-every-email/).
