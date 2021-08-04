@@ -49,3 +49,11 @@ Add to a `<link>` tag to download the stylesheet's contents, but embed them in t
 
 #### `data-inline-ignore`
 Add to a `<link>` tag to prevent inlining entirely (the output html file will still contain the `<link>` tag).
+
+### Using The Character Encoding Tools
+By default, all text nodes in the html template have special characters converted to html entities, making it easy to copy and paste content from Word docs/rich text editors.
+
+You can use the following data attributes to modify how html entities are processed:
+
+#### `data-skip-encoding`
+Add to any element (like `<td>`) to prevent html entity encoding on the element's immediate child text node(s).

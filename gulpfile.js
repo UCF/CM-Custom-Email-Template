@@ -87,7 +87,11 @@ gulp.task('html-inline', () => {
         $('body *').each(function () {
           $(this)
             .contents()
-            .filter(function () { return this.nodeType === 3 && /\S/.test(this.nodeValue); })
+            .filter(function () {
+              return this.nodeType === 3
+                && /\S/.test(this.nodeValue)
+                && ! 'data-skip-encoding' in this.parent.attribs;
+            })
             .each(function () {
               // Decode everything first, to handle already-encoded
               // characters such as `&amp;`, then encode
