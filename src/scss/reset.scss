@@ -58,6 +58,15 @@ a {
   color: $link-color;
 }
 
+#MessageViewBody a,
+a[x-apple-data-detectors] {
+  color: inherit !important;
+  font-size: inherit !important;
+  font-family: inherit !important;
+  font-weight: inherit !important;
+  line-height: inherit !important;
+}
+
 img {
   border: 0;
   border-style: none;
