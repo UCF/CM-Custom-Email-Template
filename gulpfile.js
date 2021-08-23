@@ -90,7 +90,7 @@ gulp.task('html-inline', () => {
             .filter(function () {
               return this.nodeType === 3
                 && /\S/.test(this.nodeValue)
-                && ! 'data-skip-encoding' in this.parent.attribs;
+                && ! ('data-skip-encoding' in this.parent.attribs);
             })
             .each(function () {
               // Decode everything first, to handle already-encoded
